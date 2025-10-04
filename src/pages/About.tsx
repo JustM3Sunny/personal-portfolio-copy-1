@@ -138,7 +138,7 @@ const About = () => {
 
       {/* Image Section */}
       <section data-scroll-section className="py-32 px-8">
-        <div ref={imageRef} className="max-w-[1400px] mx-auto">
+        <div ref={imageRef} className="max-w-[600px] mx-auto">
           <img 
             src={portrait} 
             alt="Portrait" 
