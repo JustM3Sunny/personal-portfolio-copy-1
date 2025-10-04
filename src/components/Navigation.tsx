@@ -28,7 +28,7 @@ export const Navigation = () => {
       {/* Full screen menu */}
       <div 
         className={`fixed inset-0 bg-background z-[100] transition-transform duration-700 ${
-          isMenuOpen ? 'translate-y-0' : '-translate-y-full'
+          isMenuOpen ? 'translate-y-0' : '-translate-y-full pointer-events-none'
         }`}
       >
         <div className="h-full flex flex-col">
