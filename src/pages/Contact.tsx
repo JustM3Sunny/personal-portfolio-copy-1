@@ -1,47 +1,85 @@
-import { useState } from 'react';
-import { Send, Mail, Phone, MapPin, Clock, CheckCircle } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLocomotiveScroll } from '@/hooks/useLocomotiveScroll';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { useToast } from '@/components/ui/use-toast';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
-  const { toast } = useToast();
+  const { scrollRef } = useLocomotiveScroll();
+  const heroRef = useRef<HTMLElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    company: '',
-    budget: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Hero animation - immediate
+      const heroTitle = heroRef.current?.querySelectorAll('.hero-char');
+      gsap.from(heroTitle, {
+        opacity: 0,
+        y: 50,
+        duration: 0.8,
+        stagger: 0.015,
+        ease: 'power3.out',
+        delay: 0.2,
+      });
+
+      gsap.from('.hero-subtitle', {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: 'power2.out',
+        delay: 0.5,
+      });
+
+      // Form animation - scroll triggered
+      gsap.from(formRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: formRef.current,
+          start: 'top 80%',
+        },
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
+  const splitText = (text: string) => {
+    return text.split('').map((char, i) => (
+      <span key={i} className="hero-char inline-block">
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
     await new Promise(resolve => setTimeout(resolve, 2000));
     
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for reaching out. I'll get back to you within 24 hours.",
-    });
+    alert('Message sent! I\'ll get back to you soon.');
     
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      budget: '',
-      message: ''
-    });
+    setFormData({ name: '', email: '', message: '' });
     setIsSubmitting(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -49,275 +87,107 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen portfolio-bg">
+    <div ref={scrollRef} data-scroll-container className="min-h-screen bg-white">
       <Header />
       
       {/* Hero Section */}
-      <section className="pt-32 pb-16 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="animate-fade-in text-center">
-            <h1 className="text-hero portfolio-text-dark mb-8">
-              Let's Work
-              <br />
-              Together
-            </h1>
-            <p className="text-xl portfolio-accent max-w-2xl mx-auto leading-relaxed">
-              Ready to bring your digital vision to life? Let's discuss your project 
-              and create something extraordinary together.
-            </p>
-          </div>
+      <section ref={heroRef} data-scroll-section className="min-h-screen flex items-center justify-center px-8 pt-32">
+        <div className="max-w-[1800px] w-full">
+          <h1 className="text-[15vw] font-light tracking-tighter leading-[0.85] mb-16 text-black">
+            {splitText('Get in Touch')}
+          </h1>
+          <p className="hero-subtitle text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight text-gray-600 max-w-4xl">
+            Have a project in mind? Let's discuss how we can work together to bring your vision to life.
+          </p>
         </div>
       </section>
 
-      {/* Contact Form & Info */}
-      <section className="pb-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            
-            {/* Contact Form */}
-            <div className="animate-scale-in">
-              <div className="bg-background rounded-lg p-8 shadow-xl">
-                <h2 className="text-2xl font-light portfolio-text-dark mb-6">
-                  Start a Project
-                </h2>
-                
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="name" className="text-sm font-medium portfolio-text-dark">
-                        Name *
-                      </Label>
-                      <Input
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="mt-2"
-                        placeholder="Your full name"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="email" className="text-sm font-medium portfolio-text-dark">
-                        Email *
-                      </Label>
-                      <Input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="mt-2"
-                        placeholder="your@email.com"
-                        required
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <Label htmlFor="company" className="text-sm font-medium portfolio-text-dark">
-                        Company
-                      </Label>
-                      <Input
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        className="mt-2"
-                        placeholder="Your company name"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="budget" className="text-sm font-medium portfolio-text-dark">
-                        Budget Range
-                      </Label>
-                      <select
-                        id="budget"
-                        name="budget"
-                        value={formData.budget}
-                        onChange={handleChange}
-                        className="mt-2 w-full px-3 py-2 border border-input rounded-md bg-background"
-                      >
-                        <option value="">Select budget range</option>
-                        <option value="5k-10k">€5,000 - €10,000</option>
-                        <option value="10k-25k">€10,000 - €25,000</option>
-                        <option value="25k-50k">€25,000 - €50,000</option>
-                        <option value="50k+">€50,000+</option>
-                      </select>
-                    </div>
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="message" className="text-sm font-medium portfolio-text-dark">
-                      Project Details *
-                    </Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="mt-2 min-h-[120px]"
-                      placeholder="Tell me about your project, goals, and timeline..."
-                      required
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <div className="flex items-center space-x-2">
-                        <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin"></div>
-                        <span>Sending...</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center space-x-2">
-                        <Send size={16} />
-                        <span>Send Message</span>
-                      </div>
-                    )}
-                  </Button>
-                </form>
+      {/* Contact Form Section */}
+      <section data-scroll-section className="py-32 px-8">
+        <div className="max-w-[1200px] mx-auto">
+          <div ref={formRef} className="max-w-3xl">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <Label htmlFor="name" className="text-sm font-medium text-black mb-3 block">
+                    Name *
+                  </Label>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="text-lg py-6 border-black/20 focus:border-black text-black"
+                    placeholder="Your name"
+                    required
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="email" className="text-sm font-medium text-black mb-3 block">
+                    Email *
+                  </Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="text-lg py-6 border-black/20 focus:border-black text-black"
+                    placeholder="your@email.com"
+                    required
+                  />
+                </div>
               </div>
-            </div>
-            
-            {/* Contact Information */}
-            <div className="animate-fade-in space-y-8">
+              
               <div>
-                <h2 className="text-2xl font-light portfolio-text-dark mb-6">
-                  Let's Connect
-                </h2>
-                <p className="text-lg portfolio-accent leading-relaxed mb-8">
-                  I'm always excited to discuss new projects and opportunities. 
-                  Whether you have a clear vision or just an idea, let's explore 
-                  how we can bring it to life.
-                </p>
+                <Label htmlFor="message" className="text-sm font-medium text-black mb-3 block">
+                  Message *
+                </Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="text-lg min-h-[200px] border-black/20 focus:border-black text-black"
+                  placeholder="Tell me about your project..."
+                  required
+                />
               </div>
               
-              {/* Contact Details */}
-              <div className="space-y-6">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Mail size={20} className="portfolio-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium portfolio-text-dark">Email</p>
-                    <p className="text-sm portfolio-accent">hello@dennissnellenberg.com</p>
-                  </div>
+              <Button 
+                type="submit" 
+                className="w-full md:w-auto px-16 py-6 text-lg bg-black hover:bg-black/80 text-white"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </Button>
+            </form>
+
+            {/* Contact Info */}
+            <div className="mt-32 pt-16 border-t border-black/10">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                  <h3 className="text-sm uppercase tracking-wider mb-4 text-gray-400">Email</h3>
+                  <a href="mailto:hello@clou.ch" className="text-2xl font-light text-black hover:opacity-50 transition-opacity">
+                    hello@clou.ch
+                  </a>
                 </div>
-                
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Phone size={20} className="portfolio-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium portfolio-text-dark">Phone</p>
-                    <p className="text-sm portfolio-accent">+31 6 1234 5678</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <MapPin size={20} className="portfolio-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium portfolio-text-dark">Location</p>
-                    <p className="text-sm portfolio-accent">Amsterdam, Netherlands</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <Clock size={20} className="portfolio-accent" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium portfolio-text-dark">Response Time</p>
-                    <p className="text-sm portfolio-accent">Within 24 hours</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Process */}
-              <div className="bg-background rounded-lg p-6">
-                <h3 className="text-lg font-medium portfolio-text-dark mb-4">
-                  What happens next?
-                </h3>
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle size={16} className="portfolio-accent mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium portfolio-text-dark">Initial Discussion</p>
-                      <p className="text-xs portfolio-accent">We'll discuss your project goals and requirements</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle size={16} className="portfolio-accent mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium portfolio-text-dark">Proposal & Timeline</p>
-                      <p className="text-xs portfolio-accent">I'll provide a detailed proposal with timeline and pricing</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start space-x-3">
-                    <CheckCircle size={16} className="portfolio-accent mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm font-medium portfolio-text-dark">Project Kickoff</p>
-                      <p className="text-xs portfolio-accent">We'll start bringing your vision to life</p>
-                    </div>
+                <div>
+                  <h3 className="text-sm uppercase tracking-wider mb-4 text-gray-400">Social</h3>
+                  <div className="space-y-2">
+                    <a href="#" className="block text-xl font-light text-black hover:opacity-50 transition-opacity">
+                      Instagram
+                    </a>
+                    <a href="#" className="block text-xl font-light text-black hover:opacity-50 transition-opacity">
+                      LinkedIn
+                    </a>
+                    <a href="#" className="block text-xl font-light text-black hover:opacity-50 transition-opacity">
+                      Twitter
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 px-6 bg-background">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12 animate-fade-in">
-            <h2 className="text-3xl font-light portfolio-text-dark mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-lg portfolio-accent">
-              Common questions about working together.
-            </p>
-          </div>
-          
-          <div className="space-y-8">
-            {[
-              {
-                question: "What's your typical project timeline?",
-                answer: "Project timelines vary depending on complexity. A simple website takes 2-4 weeks, while complex web applications can take 8-16 weeks. I'll provide a detailed timeline during our initial consultation."
-              },
-              {
-                question: "Do you work with international clients?",
-                answer: "Absolutely! I work with clients worldwide. I'm comfortable with remote collaboration and have experience working across different time zones."
-              },
-              {
-                question: "What's included in your development services?",
-                answer: "My services include design consultation, development, testing, deployment, and post-launch support. I also provide training and documentation to help you manage your project."
-              },
-              {
-                question: "How do you handle project communication?",
-                answer: "I believe in transparent communication. We'll have regular check-ins via video calls, and I'll provide progress updates throughout the project. You'll always know where things stand."
-              }
-            ].map((faq, index) => (
-              <div 
-                key={index}
-                className="border-b pb-6 animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <h3 className="text-lg font-medium portfolio-text-dark mb-3">
-                  {faq.question}
-                </h3>
-                <p className="text-sm portfolio-accent leading-relaxed">
-                  {faq.answer}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

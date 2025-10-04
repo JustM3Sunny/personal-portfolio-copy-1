@@ -24,7 +24,7 @@ const About = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero title animation - scroll triggered
+      // Hero title animation - immediate
       const heroTitle = heroRef.current?.querySelector('.hero-title');
       if (heroTitle) {
         const chars = heroTitle.querySelectorAll('.char');
@@ -34,40 +34,31 @@ const About = () => {
           stagger: 0.015,
           duration: 0.8,
           ease: 'power3.out',
-          scrollTrigger: {
-            trigger: heroTitle,
-            start: 'top 80%',
-          },
+          delay: 0.2,
         });
       }
 
-      // Subtitle animation - scroll triggered
+      // Subtitle animation - immediate
       gsap.from(heroRef.current?.querySelector('.hero-subtitle'), {
         opacity: 0,
         y: 30,
         duration: 0.8,
         ease: 'power2.out',
-        scrollTrigger: {
-          trigger: heroRef.current?.querySelector('.hero-subtitle'),
-          start: 'top 80%',
-        },
+        delay: 0.5,
       });
 
-      // Image animation - scroll triggered
+      // Image animation - immediate
       gsap.from(imageRef.current, {
         opacity: 0,
         scale: 0.95,
         duration: 1,
         ease: 'power2.out',
-        scrollTrigger: {
-          trigger: imageRef.current,
-          start: 'top 80%',
-        },
+        delay: 0.7,
       });
 
       // Bio animation with character stagger
       const bioParas = bioRef.current?.querySelectorAll('.bio-text');
-      bioParas?.forEach((para, index) => {
+      bioParas?.forEach((para) => {
         const chars = para.querySelectorAll('.bio-char');
         gsap.from(chars, {
           opacity: 0,
@@ -160,7 +151,6 @@ const About = () => {
             </p>
           </div>
 
-          {/* Image */}
           <div ref={imageRef} className="max-w-3xl">
             <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-3xl">
               <img

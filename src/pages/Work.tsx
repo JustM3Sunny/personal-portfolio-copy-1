@@ -41,7 +41,7 @@ const Work = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero animation - scroll triggered
+      // Hero animation - immediate
       const heroTitle = heroRef.current?.querySelectorAll('.hero-char');
       gsap.from(heroTitle, {
         opacity: 0,
@@ -49,10 +49,7 @@ const Work = () => {
         duration: 0.8,
         stagger: 0.015,
         ease: 'power3.out',
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top 80%',
-        },
+        delay: 0.2,
       });
 
       // Projects animation with stagger

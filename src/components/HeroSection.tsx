@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import portraitImage from '@/assets/portrait.jpg';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
@@ -21,10 +18,7 @@ const HeroSection = () => {
           stagger: 0.015,
           duration: 0.8,
           ease: 'power3.out',
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: 'top 80%',
-          },
+          delay: 0.2,
         });
       }
 
@@ -33,10 +27,7 @@ const HeroSection = () => {
         y: 30,
         duration: 0.8,
         ease: 'power2.out',
-        scrollTrigger: {
-          trigger: subtitleRef.current,
-          start: 'top 80%',
-        },
+        delay: 0.5,
       });
 
       gsap.from(imageRef.current, {
@@ -44,10 +35,7 @@ const HeroSection = () => {
         scale: 0.95,
         duration: 1,
         ease: 'power2.out',
-        scrollTrigger: {
-          trigger: imageRef.current,
-          start: 'top 80%',
-        },
+        delay: 0.7,
       });
     }, heroRef);
 
@@ -78,7 +66,6 @@ const HeroSection = () => {
           {splitText('Studio')}
         </h1>
         
-        {/* shanniii.dev with Image */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 mt-16 md:mt-24">
           <div ref={subtitleRef} className="flex-1">
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-4 text-black">
