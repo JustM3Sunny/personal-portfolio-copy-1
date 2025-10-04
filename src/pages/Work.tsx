@@ -1,79 +1,54 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLocomotiveScroll } from '@/hooks/useLocomotiveScroll';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-gsap.registerPlugin(ScrollTrigger);
-
-const projects = [
-  {
-    title: 'TWICE',
-    description: 'Interaction & Development',
-    year: '2024',
-    index: '01'
-  },
-  {
-    title: 'The Damai',
-    description: 'Design & Development',
-    year: '2024',
-    index: '02'
-  },
-  {
-    title: 'FABRIC™',
-    description: 'Design & Development',
-    year: '2023',
-    index: '03'
-  },
-  {
-    title: 'Aanstekelijk',
-    description: 'Design & Development',
-    year: '2023',
-    index: '04'
-  },
-];
-
 const Work = () => {
-  const { scrollRef } = useLocomotiveScroll();
-  const workRef = useRef<HTMLDivElement>(null);
+  useLocomotiveScroll();
+  
   const heroRef = useRef<HTMLDivElement>(null);
+  const workRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero animation
-      const heroTitle = heroRef.current?.querySelectorAll('.hero-char');
-      gsap.from(heroTitle, {
-        opacity: 0,
-        y: 100,
-        duration: 1.2,
-        stagger: 0.03,
-        ease: 'power3.out',
-      });
-
-      // Projects animation
-      const projectItems = workRef.current?.querySelectorAll('.project-item');
-      projectItems?.forEach((item) => {
-        gsap.from(item, {
+      const chars = heroRef.current?.querySelectorAll('.hero-char');
+      if (chars) {
+        gsap.from(chars, {
           opacity: 0,
-          y: 80,
-          duration: 1.4,
+          y: 100,
+          stagger: 0.02,
+          duration: 1,
           ease: 'power3.out',
+        });
+      }
+
+      const projectItems = workRef.current?.querySelectorAll('.project-item');
+      if (projectItems) {
+        gsap.from(projectItems, {
+          opacity: 0,
+          y: 60,
+          stagger: 0.15,
+          duration: 1,
+          ease: 'power2.out',
           scrollTrigger: {
-            trigger: item,
-            start: 'top 85%',
+            trigger: workRef.current,
+            start: 'top 70%',
           },
         });
-      });
-    }, workRef);
+      }
+    });
 
     return () => ctx.revert();
   }, []);
 
+  const projects = [
+    { index: '01', title: 'Project Alpha', description: 'Web Design', year: '2024' },
+    { index: '02', title: 'Project Beta', description: 'Brand Identity', year: '2023' },
+    { index: '03', title: 'Project Gamma', description: 'UI/UX Design', year: '2023' },
+  ];
+
   return (
-    <div ref={scrollRef} data-scroll-container className="min-h-screen bg-white">
-      <Header />
-      
+    <div data-scroll-container className="min-h-screen bg-white">
       {/* Hero Section */}
       <section ref={heroRef} data-scroll-section className="min-h-screen flex items-center justify-center px-8 pt-32">
         <div className="max-w-[1800px] w-full">

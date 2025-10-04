@@ -1,22 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLocomotiveScroll } from '@/hooks/useLocomotiveScroll';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import portraitImage from '@/assets/portrait.jpg';
-
-gsap.registerPlugin(ScrollTrigger);
-
-const skills = [
-  { category: 'Frontend', items: ['React', 'Vue.js', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Three.js'] },
-  { category: 'Backend', items: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'GraphQL', 'REST APIs'] },
-  { category: 'Design', items: ['Figma', 'Adobe Creative Suite', 'Sketch', 'Principle', 'Framer', 'Webflow'] },
-  { category: 'Tools', items: ['Git', 'Docker', 'AWS', 'Vercel', 'Webpack', 'Jest'] }
-];
+import portrait from '@/assets/portrait.jpg';
 
 const About = () => {
-  const { scrollRef } = useLocomotiveScroll();
+  useLocomotiveScroll();
+
   const heroRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
@@ -95,80 +85,65 @@ const About = () => {
   };
 
   return (
-    <div ref={scrollRef} data-scroll-container className="min-h-screen bg-white">
-      <Header />
-      
+    <div data-scroll-container className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section ref={heroRef} className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 pt-32 pb-20" data-scroll-section>
-        <div className="max-w-[1800px] mx-auto w-full">
-          <div className="mb-20 md:mb-32">
-            <h1 className="hero-title text-[16vw] md:text-[12vw] lg:text-[10vw] font-light leading-[0.85] tracking-tighter mb-8 md:mb-12">
-              {splitText('About')}
-            </h1>
-            <p className="hero-subtitle text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight opacity-70 max-w-4xl">
-              Creative developer & designer crafting meaningful digital experiences
-            </p>
-          </div>
+      <section ref={heroRef} data-scroll-section className="min-h-screen flex items-center justify-center px-8 pt-32">
+        <div className="max-w-[1800px] w-full">
+          <h1 className="hero-title text-[16vw] md:text-[12vw] lg:text-[10vw] font-light tracking-tighter leading-[0.85] mb-8">
+            {splitText('About Me')}
+          </h1>
+          <p className="hero-subtitle text-2xl md:text-4xl lg:text-5xl font-light tracking-tight opacity-60 max-w-4xl">
+            Designer & Developer crafting digital experiences
+          </p>
+        </div>
+      </section>
 
-          {/* Image */}
-          <div ref={imageRef} className="max-w-3xl">
-            <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-3xl">
-              <img
-                src={portraitImage}
-                alt="Developer"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
-              />
-            </div>
-          </div>
+      {/* Image Section */}
+      <section data-scroll-section className="py-32 px-8">
+        <div ref={imageRef} className="max-w-[1400px] mx-auto">
+          <img 
+            src={portrait} 
+            alt="Portrait" 
+            className="w-full h-auto rounded-3xl shadow-2xl"
+          />
         </div>
       </section>
 
       {/* Bio Section */}
-      <section ref={bioRef} className="min-h-[60vh] flex items-center px-6 md:px-12 lg:px-16 py-20 md:py-32" data-scroll-section>
-        <div className="max-w-[1800px] mx-auto w-full">
-          <div className="max-w-5xl">
-            <p className="text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight mb-12 md:mb-16 opacity-90">
-              I'm a creative developer based in the Netherlands, specializing in building 
-              digital products that blend aesthetics with functionality.
-            </p>
-            <p className="text-xl md:text-3xl lg:text-4xl font-light leading-relaxed tracking-tight opacity-60">
-              With a focus on user-centric design and clean code, I help brands and 
-              businesses create memorable online experiences that resonate with their audience.
-            </p>
-          </div>
+      <section data-scroll-section className="py-32 px-8">
+        <div ref={bioRef} className="max-w-[1200px] mx-auto space-y-8">
+          <p className="text-2xl md:text-4xl lg:text-5xl font-light tracking-tight leading-relaxed">
+            I'm a passionate designer and developer with a love for creating beautiful, 
+            functional digital experiences.
+          </p>
+          <p className="text-2xl md:text-4xl lg:text-5xl font-light tracking-tight leading-relaxed opacity-60">
+            With years of experience in the field, I specialize in bringing ideas to life 
+            through thoughtful design and clean code.
+          </p>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section ref={skillsRef} className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 py-20 md:py-32 bg-neutral-50" data-scroll-section>
-        <div className="max-w-[1800px] mx-auto w-full">
-          <div className="mb-16 md:mb-24">
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 md:mb-8">
-              Skills & Expertise
-            </h2>
-            <p className="text-xl md:text-2xl lg:text-3xl font-light opacity-60 max-w-3xl">
-              A comprehensive toolkit built over years of experience in the digital landscape.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
-            {skills.map((skillGroup) => (
-              <div key={skillGroup.category} className="skill-category">
-                <h3 className="text-base md:text-lg uppercase tracking-wider mb-6 md:mb-8 opacity-40 font-medium">
-                  {skillGroup.category}
-                </h3>
-                <ul className="space-y-4">
-                  {skillGroup.items.map((skill, idx) => (
-                    <li 
-                      key={idx}
-                      className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight hover:opacity-60 transition-opacity cursor-default"
-                    >
-                      {skill}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+      <section ref={skillsRef} data-scroll-section className="py-32 px-8">
+        <div className="max-w-[1200px] mx-auto">
+          <h2 className="text-4xl md:text-6xl font-light tracking-tight mb-16">Skills & Expertise</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="skill-category">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-light mb-4 opacity-60">Design</h3>
+              <p className="text-xl md:text-2xl lg:text-3xl font-light">UI/UX, Brand Identity, Web Design</p>
+            </div>
+            <div className="skill-category">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-light mb-4 opacity-60">Development</h3>
+              <p className="text-xl md:text-2xl lg:text-3xl font-light">React, TypeScript, Next.js</p>
+            </div>
+            <div className="skill-category">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-light mb-4 opacity-60">Animation</h3>
+              <p className="text-xl md:text-2xl lg:text-3xl font-light">GSAP, Framer Motion, Locomotive Scroll</p>
+            </div>
+            <div className="skill-category">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-light mb-4 opacity-60">Tools</h3>
+              <p className="text-xl md:text-2xl lg:text-3xl font-light">Figma, Adobe CC, Git</p>
+            </div>
           </div>
         </div>
       </section>

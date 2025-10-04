@@ -1,21 +1,17 @@
 import { useLocomotiveScroll } from '@/hooks/useLocomotiveScroll';
-import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
-import { Services } from '@/components/Services';
-import { Contact } from '@/components/Contact';
+import Services from '@/components/Services';
+import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 
-const Index = () => {
-  const { scrollRef } = useLocomotiveScroll();
+export const Index = () => {
+  useLocomotiveScroll();
 
   return (
-    <div ref={scrollRef} data-scroll-container className="min-h-screen">
-      <Header />
-      <main>
-        <HeroSection />
-        <Services />
-        <Contact />
-      </main>
+    <div className="bg-white text-black" data-scroll-container>
+      <HeroSection />
+      <Services />
+      <Contact />
       <Footer />
     </div>
   );
