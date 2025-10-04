@@ -1,8 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useLocomotiveScroll } from '@/hooks/useLocomotiveScroll';
-import { Code2, Palette, Zap, Heart } from 'lucide-react';
 import Footer from '@/components/Footer';
 import portrait from '@/assets/portrait.jpg';
 
@@ -15,7 +14,6 @@ const About = () => {
   const imageRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
   const skillsRef = useRef<HTMLElement>(null);
-  const [hoveredSkill, setHoveredSkill] = useState<string | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -124,37 +122,6 @@ const About = () => {
     ));
   };
 
-  const skills = [
-    { 
-      id: 'design', 
-      icon: Palette, 
-      title: 'Design', 
-      subtitle: 'UI/UX, Brand Identity, Web Design',
-      color: 'from-pink-500 to-purple-500'
-    },
-    { 
-      id: 'development', 
-      icon: Code2, 
-      title: 'Development', 
-      subtitle: 'React, TypeScript, Next.js',
-      color: 'from-blue-500 to-cyan-500'
-    },
-    { 
-      id: 'animation', 
-      icon: Zap, 
-      title: 'Animation', 
-      subtitle: 'GSAP, Framer Motion, Locomotive Scroll',
-      color: 'from-orange-500 to-yellow-500'
-    },
-    { 
-      id: 'tools', 
-      icon: Heart, 
-      title: 'Tools', 
-      subtitle: 'Figma, Adobe CC, Git',
-      color: 'from-red-500 to-pink-500'
-    },
-  ];
-
   return (
     <div data-scroll-container className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -171,14 +138,12 @@ const About = () => {
 
       {/* Image Section */}
       <section data-scroll-section className="py-32 px-8">
-        <div ref={imageRef} className="max-w-[600px] mx-auto relative group">
+        <div ref={imageRef} className="max-w-[600px] mx-auto">
           <img 
             src={portrait} 
             alt="Portrait" 
-            className="w-full h-auto rounded-3xl shadow-2xl transition-all duration-700 group-hover:shadow-3xl group-hover:scale-105"
+            className="w-full h-auto rounded-3xl shadow-2xl"
           />
-          {/* Fun Overlay */}
-          <div className="absolute inset-0 rounded-3xl bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </div>
       </section>
 
@@ -194,77 +159,29 @@ const About = () => {
         </div>
       </section>
 
-      {/* Skills Section with Interactive Cards */}
+      {/* Skills Section */}
       <section ref={skillsRef} data-scroll-section className="py-32 px-8">
         <div className="max-w-[1200px] mx-auto">
           <h2 className="skills-title text-4xl md:text-6xl font-light tracking-tight mb-16">
             {splitText('Skills & Expertise', 'title-char')}
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {skills.map((skill) => {
-              const Icon = skill.icon;
-              const isHovered = hoveredSkill === skill.id;
-              
-              return (
-                <div
-                  key={skill.id}
-                  className="skill-category group relative"
-                  onMouseEnter={() => setHoveredSkill(skill.id)}
-                  onMouseLeave={() => setHoveredSkill(null)}
-                >
-                  <div className={`
-                    p-8 rounded-3xl border border-border bg-card
-                    transition-all duration-500 cursor-pointer
-                    ${isHovered ? 'scale-105 -rotate-2 shadow-2xl' : 'scale-100 rotate-0 shadow-lg'}
-                  `}>
-                    {/* Gradient Background */}
-                    <div className={`
-                      absolute inset-0 rounded-3xl bg-gradient-to-br ${skill.color} opacity-0
-                      transition-opacity duration-500
-                      ${isHovered ? 'opacity-10' : 'opacity-0'}
-                    `} />
-
-                    {/* Icon */}
-                    <div className={`
-                      relative w-16 h-16 mb-6 rounded-2xl bg-gradient-to-br ${skill.color}
-                      flex items-center justify-center
-                      transition-all duration-500
-                      ${isHovered ? 'rotate-12 scale-110' : 'rotate-0 scale-100'}
-                    `}>
-                      <Icon className="w-8 h-8 text-white" />
-                    </div>
-
-                    {/* Content */}
-                    <h3 className="text-2xl md:text-3xl font-light mb-4 relative z-10">
-                      {skill.title}
-                    </h3>
-                    <p className="text-lg md:text-xl font-light opacity-60 relative z-10">
-                      {skill.subtitle}
-                    </p>
-
-                    {/* Hover Arrow */}
-                    <div className={`
-                      absolute bottom-8 right-8 transition-all duration-500
-                      ${isHovered ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0'}
-                    `}>
-                      <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div className="skill-category">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-light mb-4 opacity-60">Design</h3>
+              <p className="text-xl md:text-2xl lg:text-3xl font-light">UI/UX, Brand Identity, Web Design</p>
+            </div>
+            <div className="skill-category">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-light mb-4 opacity-60">Development</h3>
+              <p className="text-xl md:text-2xl lg:text-3xl font-light">React, TypeScript, Next.js</p>
+            </div>
+            <div className="skill-category">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-light mb-4 opacity-60">Animation</h3>
+              <p className="text-xl md:text-2xl lg:text-3xl font-light">GSAP, Framer Motion, Locomotive Scroll</p>
+            </div>
+            <div className="skill-category">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-light mb-4 opacity-60">Tools</h3>
+              <p className="text-xl md:text-2xl lg:text-3xl font-light">Figma, Adobe CC, Git</p>
+            </div>
           </div>
         </div>
       </section>
