@@ -59,7 +59,7 @@ const HeroSection = () => {
       <div className="max-w-[1800px] w-full">
         <h1 
           ref={titleRef} 
-          className="text-[18vw] md:text-[15vw] lg:text-[12vw] leading-[0.9] tracking-tighter font-light mb-16 md:mb-20"
+          className="text-[18vw] md:text-[15vw] lg:text-[12vw] leading-[0.9] tracking-tighter font-light mb-16 md:mb-20 text-black"
         >
           {splitText('Digital')}
           <br />
@@ -69,10 +69,10 @@ const HeroSection = () => {
         {/* shanniii.dev with Image */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 mt-16 md:mt-24">
           <div ref={subtitleRef} className="flex-1">
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-4">
+            <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-4 text-black">
               shanniii.dev
             </h2>
-            <p className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight opacity-60 max-w-2xl">
+            <p className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight text-gray-600 max-w-2xl">
               Creative developer crafting digital experiences with passion and precision.
             </p>
           </div>

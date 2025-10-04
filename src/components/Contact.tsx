@@ -28,11 +28,11 @@ export const Contact = () => {
     <section id="contact" ref={contactRef} data-scroll-section className="min-h-screen flex items-center px-8 py-32">
       <div className="max-w-[1800px] mx-auto w-full">
         <div className="contact-content">
-          <h2 className="text-sm mb-20 opacity-50">Get in Touch</h2>
-          <div className="text-6xl md:text-8xl font-light tracking-tighter mb-12">
+          <h2 className="text-sm mb-20 text-gray-500">Get in Touch</h2>
+          <div className="text-6xl md:text-8xl font-light tracking-tighter mb-12 text-black">
             Let's create<br />something together
           </div>
-          <a href="mailto:hello@clou.ch" className="text-2xl md:text-4xl hover:opacity-50 transition-opacity">
+          <a href="mailto:hello@clou.ch" className="text-2xl md:text-4xl text-black hover:opacity-50 transition-opacity">
             hello@clou.ch
           </a>
         </div>

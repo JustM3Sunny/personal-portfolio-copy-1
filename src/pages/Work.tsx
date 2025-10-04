@@ -77,7 +77,7 @@ const Work = () => {
       {/* Hero Section */}
       <section ref={heroRef} data-scroll-section className="min-h-screen flex items-center justify-center px-8 pt-32">
         <div className="max-w-[1800px] w-full">
-          <h1 className="text-[15vw] font-light tracking-tighter leading-[0.85] overflow-hidden">
+          <h1 className="text-[15vw] font-light tracking-tighter leading-[0.85] overflow-hidden text-black">
             {'Selected Work'.split('').map((char, i) => (
               <span key={i} className="hero-char inline-block">
                 {char === ' ' ? '\u00A0' : char}
@@ -98,16 +98,16 @@ const Work = () => {
               >
                 <div className="flex items-start justify-between gap-8">
                   <div className="flex gap-12 items-baseline">
-                    <span className="text-sm opacity-30 group-hover:opacity-50 transition-opacity">
+                    <span className="text-sm text-gray-400 group-hover:text-gray-500 transition-colors">
                       {project.index}
                     </span>
-                    <h2 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tighter group-hover:translate-x-4 transition-transform duration-700">
+                    <h2 className="text-6xl md:text-8xl lg:text-9xl font-light tracking-tighter text-black group-hover:translate-x-4 transition-transform duration-700">
                       {project.title}
                     </h2>
                   </div>
                   <div className="flex flex-col items-end gap-2 pt-2">
-                    <span className="text-sm opacity-50">{project.description}</span>
-                    <span className="text-sm opacity-30">{project.year}</span>
+                    <span className="text-sm text-gray-600">{project.description}</span>
+                    <span className="text-sm text-gray-400">{project.year}</span>
                   </div>
                 </div>
               </div>

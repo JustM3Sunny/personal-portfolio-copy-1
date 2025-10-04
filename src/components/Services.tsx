@@ -37,11 +37,11 @@ export const Services = () => {
   return (
     <section ref={servicesRef} data-scroll-section className="py-32 px-8">
       <div className="max-w-[1800px] mx-auto">
-        <h2 className="text-sm mb-20 opacity-50">Capabilities</h2>
+        <h2 className="text-sm mb-20 text-gray-500">Capabilities</h2>
         
         <div className="grid md:grid-cols-2 gap-x-32 gap-y-8">
           {services.map((service, index) => (
-            <div key={index} className="service-item text-3xl md:text-5xl font-light tracking-tight">
+            <div key={index} className="service-item text-3xl md:text-5xl font-light tracking-tight text-black">
               {service}
             </div>
           ))}

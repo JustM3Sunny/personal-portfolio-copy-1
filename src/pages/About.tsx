@@ -102,10 +102,10 @@ const About = () => {
       <section ref={heroRef} className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 pt-32 pb-20" data-scroll-section>
         <div className="max-w-[1800px] mx-auto w-full">
           <div className="mb-20 md:mb-32">
-            <h1 className="hero-title text-[16vw] md:text-[12vw] lg:text-[10vw] font-light leading-[0.85] tracking-tighter mb-8 md:mb-12">
+            <h1 className="hero-title text-[16vw] md:text-[12vw] lg:text-[10vw] font-light leading-[0.85] tracking-tighter mb-8 md:mb-12 text-black">
               {splitText('About')}
             </h1>
-            <p className="hero-subtitle text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight opacity-70 max-w-4xl">
+            <p className="hero-subtitle text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight text-gray-600 max-w-4xl">
               Creative developer & designer crafting meaningful digital experiences
             </p>
           </div>
@@ -127,11 +127,11 @@ const About = () => {
       <section ref={bioRef} className="min-h-[60vh] flex items-center px-6 md:px-12 lg:px-16 py-20 md:py-32" data-scroll-section>
         <div className="max-w-[1800px] mx-auto w-full">
           <div className="max-w-5xl">
-            <p className="text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight mb-12 md:mb-16 opacity-90">
+            <p className="text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight mb-12 md:mb-16 text-gray-900">
               I'm a creative developer based in the Netherlands, specializing in building 
               digital products that blend aesthetics with functionality.
             </p>
-            <p className="text-xl md:text-3xl lg:text-4xl font-light leading-relaxed tracking-tight opacity-60">
+            <p className="text-xl md:text-3xl lg:text-4xl font-light leading-relaxed tracking-tight text-gray-600">
               With a focus on user-centric design and clean code, I help brands and 
               businesses create memorable online experiences that resonate with their audience.
             </p>
@@ -143,10 +143,10 @@ const About = () => {
       <section ref={skillsRef} className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 py-20 md:py-32 bg-neutral-50" data-scroll-section>
         <div className="max-w-[1800px] mx-auto w-full">
           <div className="mb-16 md:mb-24">
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 md:mb-8">
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 md:mb-8 text-black">
               Skills & Expertise
             </h2>
-            <p className="text-xl md:text-2xl lg:text-3xl font-light opacity-60 max-w-3xl">
+            <p className="text-xl md:text-2xl lg:text-3xl font-light text-gray-600 max-w-3xl">
               A comprehensive toolkit built over years of experience in the digital landscape.
             </p>
           </div>
@@ -154,14 +154,14 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
             {skills.map((skillGroup) => (
               <div key={skillGroup.category} className="skill-category">
-                <h3 className="text-base md:text-lg uppercase tracking-wider mb-6 md:mb-8 opacity-40 font-medium">
+                <h3 className="text-base md:text-lg uppercase tracking-wider mb-6 md:mb-8 text-gray-400 font-medium">
                   {skillGroup.category}
                 </h3>
                 <ul className="space-y-4">
                   {skillGroup.items.map((skill, idx) => (
                     <li 
                       key={idx}
-                      className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight hover:opacity-60 transition-opacity cursor-default"
+                      className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight text-black hover:opacity-60 transition-opacity cursor-default"
                     >
                       {skill}
                     </li>
