@@ -1,103 +1,67 @@
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import portraitImage from '@/assets/portrait.jpg';
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
 
-const HeroSection = () => {
-  const heroRef = useRef<HTMLElement>(null);
+export const HeroSection = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const chars = titleRef.current?.querySelectorAll('.char');
-      if (chars) {
-        gsap.fromTo(chars,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.015,
-            duration: 0.8,
-            ease: 'power3.out',
-            delay: 0.2,
-          }
-        );
-      }
-
-      gsap.fromTo(subtitleRef.current,
+      gsap.fromTo(
+        titleRef.current,
         { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power2.out',
-          delay: 0.5,
-        }
+        { opacity: 1, y: 0, duration: 1, ease: "power2.out" }
       );
-
-      gsap.fromTo(imageRef.current,
-        { opacity: 0, scale: 0.95 },
-        {
-          opacity: 1,
-          scale: 1,
-          duration: 1,
-          ease: 'power2.out',
-          delay: 0.7,
-        }
+      
+      gsap.fromTo(
+        subtitleRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.2, ease: "power2.out" }
       );
-    }, heroRef);
+      
+      gsap.fromTo(
+        ctaRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 1, delay: 0.4, ease: "power2.out" }
+      );
+    });
 
     return () => ctx.revert();
   }, []);
 
-  const splitText = (text: string) => {
-    return text.split('').map((char, i) => (
-      <span key={i} className="char inline-block opacity-100">
-        {char === ' ' ? '\u00A0' : char}
-      </span>
-    ));
-  };
-
   return (
-    <section 
-      ref={heroRef} 
-      className="min-h-screen flex items-center justify-center px-6 md:px-12 lg:px-16 py-20"
-      data-scroll-section
-    >
-      <div className="max-w-[1800px] w-full">
+    <section className="min-h-screen flex items-center justify-center px-6">
+      <div className="max-w-4xl mx-auto text-center">
         <h1 
-          ref={titleRef} 
-          className="text-[18vw] md:text-[15vw] lg:text-[12vw] leading-[0.9] tracking-tighter font-light mb-16 md:mb-20 text-black opacity-100"
+          ref={titleRef}
+          className="text-6xl md:text-8xl mb-6 opacity-100"
         >
-          {splitText('Digital')}
-          <br />
-          {splitText('Studio')}
+          Creative Developer
         </h1>
         
-        <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 mt-16 md:mt-24">
-          <div ref={subtitleRef} className="flex-1 opacity-100">
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-4 text-black opacity-100">
-              shanniii.dev
-            </h2>
-            <p className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight text-gray-600 max-w-2xl opacity-100">
-              Creative developer crafting digital experiences with passion and precision.
-            </p>
-          </div>
-          
-          <div ref={imageRef} className="w-full md:w-auto opacity-100">
-            <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 overflow-hidden rounded-2xl">
-              <img
-                src={portraitImage}
-                alt="shanniii"
-                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
-              />
-            </div>
-          </div>
+        <p 
+          ref={subtitleRef}
+          className="text-xl md:text-2xl text-muted mb-12 opacity-100"
+        >
+          Building beautiful digital experiences with code & design
+        </p>
+        
+        <div ref={ctaRef} className="flex gap-4 justify-center opacity-100">
+          <a
+            href="/work"
+            className="px-8 py-3 bg-foreground text-background rounded-full text-sm hover:opacity-80 transition-opacity"
+          >
+            View Work
+          </a>
+          <a
+            href="/contact"
+            className="px-8 py-3 border border-border rounded-full text-sm hover:bg-foreground hover:text-background transition-colors"
+          >
+            Get in Touch
+          </a>
         </div>
       </div>
     </section>
   );
 };
-
-export default HeroSection;

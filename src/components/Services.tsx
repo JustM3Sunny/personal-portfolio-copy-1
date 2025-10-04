@@ -1,77 +1,84 @@
-import { useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
-  'Brand Strategy',
-  'Visual Identity',
-  'Web Design',
-  'Development',
+  {
+    title: "Web Development",
+    description: "Building responsive and performant web applications with modern technologies.",
+  },
+  {
+    title: "UI/UX Design",
+    description: "Creating intuitive and beautiful user interfaces that users love.",
+  },
+  {
+    title: "Animation",
+    description: "Adding life to digital products with smooth, meaningful animations.",
+  },
 ];
 
 export const Services = () => {
-  const servicesRef = useRef<HTMLElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Animate header
-      gsap.fromTo('.services-header',
-        { opacity: 0, y: 20 },
+      gsap.fromTo(
+        titleRef.current,
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.8,
-          ease: 'power2.out',
+          duration: 1,
           scrollTrigger: {
-            trigger: '.services-header',
-            start: 'top 80%',
+            trigger: titleRef.current,
+            start: "top 80%",
           },
         }
       );
 
-      // Animate each service item with character stagger
-      const items = servicesRef.current?.querySelectorAll('.service-item');
-      items?.forEach((item) => {
-        const chars = item.querySelectorAll('.service-char');
-        gsap.fromTo(chars,
-          { opacity: 0, y: 30 },
-          {
-            opacity: 1,
-            y: 0,
-            stagger: 0.02,
-            duration: 0.6,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: item,
-              start: 'top 85%',
-            },
-          }
-        );
+      cardsRef.current.forEach((card, index) => {
+        if (card) {
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 1,
+              delay: index * 0.2,
+              scrollTrigger: {
+                trigger: card,
+                start: "top 80%",
+              },
+            }
+          );
+        }
       });
-    }, servicesRef);
+    }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  const splitText = (text: string) => {
-    return text.split('').map((char, i) => (
-      <span key={i} className="service-char inline-block opacity-100">
-        {char === ' ' ? '\u00A0' : char}
-      </span>
-    ));
-  };
-
   return (
-    <section ref={servicesRef} data-scroll-section className="py-32 px-8">
-      <div className="max-w-[1800px] mx-auto">
-        <h2 className="services-header text-sm mb-20 text-gray-500 opacity-100">Capabilities</h2>
+    <section ref={sectionRef} className="py-32 px-6">
+      <div className="max-w-7xl mx-auto">
+        <h2 ref={titleRef} className="text-5xl md:text-6xl mb-16 text-center opacity-100">
+          What I Do
+        </h2>
         
-        <div className="grid md:grid-cols-2 gap-x-32 gap-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <div key={index} className="service-item text-3xl md:text-5xl font-light tracking-tight text-black opacity-100">
-              {splitText(service)}
+            <div
+              key={index}
+              ref={(el) => (cardsRef.current[index] = el)}
+              className="p-8 border border-border rounded-2xl hover:border-foreground transition-colors opacity-100"
+            >
+              <h3 className="text-2xl mb-4 opacity-100">{service.title}</h3>
+              <p className="text-muted opacity-100">{service.description}</p>
             </div>
           ))}
         </div>
