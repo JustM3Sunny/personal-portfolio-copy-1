@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import portraitImage from '@/assets/portrait.jpg';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
@@ -18,7 +21,10 @@ const HeroSection = () => {
           stagger: 0.015,
           duration: 0.8,
           ease: 'power3.out',
-          delay: 0.1,
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: 'top 80%',
+          },
         });
       }
 
@@ -27,7 +33,10 @@ const HeroSection = () => {
         y: 30,
         duration: 0.8,
         ease: 'power2.out',
-        delay: 0.4,
+        scrollTrigger: {
+          trigger: subtitleRef.current,
+          start: 'top 80%',
+        },
       });
 
       gsap.from(imageRef.current, {
@@ -35,7 +44,10 @@ const HeroSection = () => {
         scale: 0.95,
         duration: 1,
         ease: 'power2.out',
-        delay: 0.6,
+        scrollTrigger: {
+          trigger: imageRef.current,
+          start: 'top 80%',
+        },
       });
     }, heroRef);
 

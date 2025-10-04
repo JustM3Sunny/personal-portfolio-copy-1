@@ -24,57 +24,99 @@ const About = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero title animation
+      // Hero title animation - scroll triggered
       const heroTitle = heroRef.current?.querySelector('.hero-title');
       if (heroTitle) {
         const chars = heroTitle.querySelectorAll('.char');
         gsap.from(chars, {
           opacity: 0,
-          y: 100,
-          stagger: 0.02,
-          duration: 1.2,
+          y: 50,
+          stagger: 0.015,
+          duration: 0.8,
           ease: 'power3.out',
-          delay: 0.3,
+          scrollTrigger: {
+            trigger: heroTitle,
+            start: 'top 80%',
+          },
         });
       }
 
-      // Subtitle animation
+      // Subtitle animation - scroll triggered
       gsap.from(heroRef.current?.querySelector('.hero-subtitle'), {
-        opacity: 0,
-        y: 40,
-        duration: 1,
-        ease: 'power2.out',
-        delay: 1,
-      });
-
-      // Image animation
-      gsap.from(imageRef.current, {
-        opacity: 0,
-        scale: 0.9,
-        duration: 1.4,
-        ease: 'power2.out',
-        delay: 0.6,
-      });
-
-      // Bio animation
-      gsap.from(bioRef.current?.querySelectorAll('p'), {
         opacity: 0,
         y: 30,
         duration: 0.8,
-        stagger: 0.2,
         ease: 'power2.out',
         scrollTrigger: {
-          trigger: bioRef.current,
-          start: 'top 70%',
+          trigger: heroRef.current?.querySelector('.hero-subtitle'),
+          start: 'top 80%',
         },
       });
 
-      // Skills animation
+      // Image animation - scroll triggered
+      gsap.from(imageRef.current, {
+        opacity: 0,
+        scale: 0.95,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: imageRef.current,
+          start: 'top 80%',
+        },
+      });
+
+      // Bio animation with character stagger
+      const bioParas = bioRef.current?.querySelectorAll('.bio-text');
+      bioParas?.forEach((para, index) => {
+        const chars = para.querySelectorAll('.bio-char');
+        gsap.from(chars, {
+          opacity: 0,
+          y: 20,
+          stagger: 0.01,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: para,
+            start: 'top 80%',
+          },
+        });
+      });
+
+      // Skills header with character stagger
+      const skillsTitle = skillsRef.current?.querySelector('.skills-title');
+      if (skillsTitle) {
+        const chars = skillsTitle.querySelectorAll('.skill-title-char');
+        gsap.from(chars, {
+          opacity: 0,
+          y: 30,
+          stagger: 0.015,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: skillsTitle,
+            start: 'top 80%',
+          },
+        });
+      }
+
+      // Skills subtitle
+      gsap.from('.skills-subtitle', {
+        opacity: 0,
+        y: 20,
+        duration: 0.8,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '.skills-subtitle',
+          start: 'top 85%',
+        },
+      });
+
+      // Skills categories
       gsap.from(skillsRef.current?.querySelectorAll('.skill-category'), {
         opacity: 0,
-        y: 40,
+        y: 30,
         duration: 0.8,
-        stagger: 0.15,
+        stagger: 0.1,
         ease: 'power2.out',
         scrollTrigger: {
           trigger: skillsRef.current,
@@ -89,6 +131,14 @@ const About = () => {
   const splitText = (text: string) => {
     return text.split('').map((char, i) => (
       <span key={i} className="char inline-block">
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
+
+  const splitTextWithClass = (text: string, className: string) => {
+    return text.split('').map((char, i) => (
+      <span key={i} className={`${className} inline-block`}>
         {char === ' ' ? '\u00A0' : char}
       </span>
     ));
@@ -127,13 +177,11 @@ const About = () => {
       <section ref={bioRef} className="min-h-[60vh] flex items-center px-6 md:px-12 lg:px-16 py-20 md:py-32" data-scroll-section>
         <div className="max-w-[1800px] mx-auto w-full">
           <div className="max-w-5xl">
-            <p className="text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight mb-12 md:mb-16 text-gray-900">
-              I'm a creative developer based in the Netherlands, specializing in building 
-              digital products that blend aesthetics with functionality.
+            <p className="bio-text text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight mb-12 md:mb-16 text-gray-900">
+              {splitTextWithClass("I'm a creative developer based in the Netherlands, specializing in building digital products that blend aesthetics with functionality.", 'bio-char')}
             </p>
-            <p className="text-xl md:text-3xl lg:text-4xl font-light leading-relaxed tracking-tight text-gray-600">
-              With a focus on user-centric design and clean code, I help brands and 
-              businesses create memorable online experiences that resonate with their audience.
+            <p className="bio-text text-xl md:text-3xl lg:text-4xl font-light leading-relaxed tracking-tight text-gray-600">
+              {splitTextWithClass("With a focus on user-centric design and clean code, I help brands and businesses create memorable online experiences that resonate with their audience.", 'bio-char')}
             </p>
           </div>
         </div>
@@ -143,10 +191,10 @@ const About = () => {
       <section ref={skillsRef} className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 py-20 md:py-32 bg-neutral-50" data-scroll-section>
         <div className="max-w-[1800px] mx-auto w-full">
           <div className="mb-16 md:mb-24">
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 md:mb-8 text-black">
-              Skills & Expertise
+            <h2 className="skills-title text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 md:mb-8 text-black">
+              {splitTextWithClass('Skills & Expertise', 'skill-title-char')}
             </h2>
-            <p className="text-xl md:text-2xl lg:text-3xl font-light text-gray-600 max-w-3xl">
+            <p className="skills-subtitle text-xl md:text-2xl lg:text-3xl font-light text-gray-600 max-w-3xl">
               A comprehensive toolkit built over years of experience in the digital landscape.
             </p>
           </div>
