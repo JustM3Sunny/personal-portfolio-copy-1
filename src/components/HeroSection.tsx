@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import portraitImage from '@/assets/portrait.jpg';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
@@ -15,27 +18,40 @@ const HeroSection = () => {
         gsap.from(chars, {
           opacity: 0,
           y: 100,
-          stagger: 0.03,
-          duration: 1.2,
+          stagger: 0.02,
+          duration: 0.8,
           ease: 'power3.out',
-          delay: 0.5,
+          scrollTrigger: {
+            trigger: titleRef.current,
+            start: 'top 80%',
+          },
         });
       }
 
-      gsap.from(subtitleRef.current, {
-        opacity: 0,
-        y: 40,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 1.5,
-      });
+      const subtitleChars = subtitleRef.current?.querySelectorAll('.subtitle-char');
+      if (subtitleChars) {
+        gsap.from(subtitleChars, {
+          opacity: 0,
+          y: 30,
+          stagger: 0.01,
+          duration: 0.6,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: subtitleRef.current,
+            start: 'top 80%',
+          },
+        });
+      }
 
       gsap.from(imageRef.current, {
         opacity: 0,
-        scale: 0.95,
-        duration: 1.2,
-        ease: 'power3.out',
-        delay: 1.8,
+        scale: 0.9,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: imageRef.current,
+          start: 'top 80%',
+        },
       });
     }, heroRef);
 
@@ -45,6 +61,14 @@ const HeroSection = () => {
   const splitText = (text: string) => {
     return text.split('').map((char, i) => (
       <span key={i} className="char inline-block">
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
+
+  const splitSubtitle = (text: string) => {
+    return text.split('').map((char, i) => (
+      <span key={i} className="subtitle-char inline-block">
         {char === ' ' ? '\u00A0' : char}
       </span>
     ));
@@ -66,14 +90,13 @@ const HeroSection = () => {
           {splitText('Studio')}
         </h1>
         
-        {/* shanniii.dev with Image */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 mt-16 md:mt-24">
           <div ref={subtitleRef} className="flex-1">
             <h2 className="text-4xl md:text-6xl lg:text-7xl font-light tracking-tight mb-4">
-              shanniii.dev
+              {splitSubtitle('shanniii.dev')}
             </h2>
             <p className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight opacity-60 max-w-2xl">
-              Creative developer crafting digital experiences with passion and precision.
+              {splitSubtitle('Creative developer crafting digital experiences with passion and precision.')}
             </p>
           </div>
           
