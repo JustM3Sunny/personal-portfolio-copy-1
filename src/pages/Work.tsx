@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLocomotiveScroll } from '@/hooks/useLocomotiveScroll';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
@@ -34,6 +35,7 @@ const projects = [
 ];
 
 const Work = () => {
+  const { scrollRef } = useLocomotiveScroll();
   const workRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -69,11 +71,11 @@ const Work = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div ref={scrollRef} data-scroll-container className="min-h-screen bg-white">
       <Header />
       
       {/* Hero Section */}
-      <section ref={heroRef} className="min-h-screen flex items-center justify-center px-8 pt-32">
+      <section ref={heroRef} data-scroll-section className="min-h-screen flex items-center justify-center px-8 pt-32">
         <div className="max-w-[1800px] w-full">
           <h1 className="text-[15vw] font-light tracking-tighter leading-[0.85] overflow-hidden">
             {'Selected Work'.split('').map((char, i) => (
@@ -86,7 +88,7 @@ const Work = () => {
       </section>
 
       {/* Projects Section */}
-      <section ref={workRef} className="py-32 px-8">
+      <section ref={workRef} data-scroll-section className="py-32 px-8">
         <div className="max-w-[1800px] mx-auto">
           <div className="space-y-1">
             {projects.map((project) => (
@@ -115,7 +117,7 @@ const Work = () => {
       </section>
 
       {/* Bottom Spacer */}
-      <div className="h-32" />
+      <div data-scroll-section className="h-32" />
 
       <Footer />
     </div>

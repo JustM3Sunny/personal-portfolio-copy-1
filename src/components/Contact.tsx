@@ -25,7 +25,7 @@ export const Contact = () => {
   }, []);
 
   return (
-    <section id="contact" ref={contactRef} className="min-h-screen flex items-center px-8 py-32">
+    <section id="contact" ref={contactRef} data-scroll-section className="min-h-screen flex items-center px-8 py-32">
       <div className="max-w-[1800px] mx-auto w-full">
         <div className="contact-content">
           <h2 className="text-sm mb-20 opacity-50">Get in Touch</h2>

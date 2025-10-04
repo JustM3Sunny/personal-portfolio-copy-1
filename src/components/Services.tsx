@@ -35,7 +35,7 @@ export const Services = () => {
   }, []);
 
   return (
-    <section ref={servicesRef} className="py-32 px-8">
+    <section ref={servicesRef} data-scroll-section className="py-32 px-8">
       <div className="max-w-[1800px] mx-auto">
         <h2 className="text-sm mb-20 opacity-50">Capabilities</h2>
         
