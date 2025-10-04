@@ -1,7 +1,7 @@
 import { useLocomotiveScroll } from '@/hooks/useLocomotiveScroll';
 import HeroSection from '@/components/HeroSection';
-import Services from '@/components/Services';
-import Contact from '@/components/Contact';
+import { Services } from '@/components/Services';
+import { Contact } from '@/components/Contact';
 import Footer from '@/components/Footer';
 
 export const Index = () => {
