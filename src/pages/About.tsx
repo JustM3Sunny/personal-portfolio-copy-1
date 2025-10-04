@@ -1,127 +1,169 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Navigation } from "@/components/Navigation";
-import { Footer } from "@/components/Footer";
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLocomotiveScroll } from '@/hooks/useLocomotiveScroll';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import portraitImage from '@/assets/portrait.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const skills = [
-  { category: "Design", items: ["UI/UX Design", "Web Design", "Interaction Design", "Branding"] },
-  { category: "Development", items: ["React", "TypeScript", "GSAP", "Tailwind CSS", "Next.js"] },
-  { category: "Tools", items: ["Figma", "Webflow", "VS Code", "Git"] },
+  { category: 'Frontend', items: ['React', 'Vue.js', 'TypeScript', 'Tailwind CSS', 'GSAP', 'Three.js'] },
+  { category: 'Backend', items: ['Node.js', 'Express', 'PostgreSQL', 'MongoDB', 'GraphQL', 'REST APIs'] },
+  { category: 'Design', items: ['Figma', 'Adobe Creative Suite', 'Sketch', 'Principle', 'Framer', 'Webflow'] },
+  { category: 'Tools', items: ['Git', 'Docker', 'AWS', 'Vercel', 'Webpack', 'Jest'] }
 ];
 
-export const About = () => {
-  const heroRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const skillsRef = useRef<(HTMLDivElement | null)[]>([]);
+const About = () => {
+  const { scrollRef } = useLocomotiveScroll();
+  const heroRef = useRef<HTMLElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const bioRef = useRef<HTMLDivElement>(null);
+  const skillsRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Hero animation
-      if (heroRef.current) {
-        gsap.fromTo(
-          heroRef.current.querySelectorAll("h1, p"),
-          { opacity: 0, y: 30 },
-          { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out" }
-        );
+      // Hero title animation
+      const heroTitle = heroRef.current?.querySelector('.hero-title');
+      if (heroTitle) {
+        const chars = heroTitle.querySelectorAll('.char');
+        gsap.from(chars, {
+          opacity: 0,
+          y: 100,
+          stagger: 0.02,
+          duration: 1.2,
+          ease: 'power3.out',
+          delay: 0.3,
+        });
       }
 
-      // Content animation
-      if (contentRef.current) {
-        gsap.fromTo(
-          contentRef.current,
-          { opacity: 0, y: 50 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            scrollTrigger: {
-              trigger: contentRef.current,
-              start: "top 80%",
-            },
-          }
-        );
-      }
+      // Subtitle animation
+      gsap.from(heroRef.current?.querySelector('.hero-subtitle'), {
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: 'power2.out',
+        delay: 1,
+      });
+
+      // Image animation
+      gsap.from(imageRef.current, {
+        opacity: 0,
+        scale: 0.9,
+        duration: 1.4,
+        ease: 'power2.out',
+        delay: 0.6,
+      });
+
+      // Bio animation
+      gsap.from(bioRef.current?.querySelectorAll('p'), {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: bioRef.current,
+          start: 'top 70%',
+        },
+      });
 
       // Skills animation
-      skillsRef.current.forEach((skill, index) => {
-        if (skill) {
-          gsap.fromTo(
-            skill,
-            { opacity: 0, y: 50 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 1,
-              delay: index * 0.1,
-              scrollTrigger: {
-                trigger: skill,
-                start: "top 85%",
-              },
-            }
-          );
-        }
+      gsap.from(skillsRef.current?.querySelectorAll('.skill-category'), {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: skillsRef.current,
+          start: 'top 70%',
+        },
       });
     });
 
     return () => ctx.revert();
   }, []);
 
+  const splitText = (text: string) => {
+    return text.split('').map((char, i) => (
+      <span key={i} className="char inline-block">
+        {char === ' ' ? '\u00A0' : char}
+      </span>
+    ));
+  };
+
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
+    <div ref={scrollRef} data-scroll-container className="min-h-screen bg-white">
+      <Header />
       
       {/* Hero Section */}
-      <section ref={heroRef} className="pt-32 pb-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-6xl md:text-8xl mb-8 opacity-100">About</h1>
-          <p className="text-xl md:text-2xl text-muted max-w-3xl opacity-100">
-            Designer and developer, focused on creating memorable digital experiences.
-          </p>
+      <section ref={heroRef} className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 pt-32 pb-20" data-scroll-section>
+        <div className="max-w-[1800px] mx-auto w-full">
+          <div className="mb-20 md:mb-32">
+            <h1 className="hero-title text-[16vw] md:text-[12vw] lg:text-[10vw] font-light leading-[0.85] tracking-tighter mb-8 md:mb-12">
+              {splitText('About')}
+            </h1>
+            <p className="hero-subtitle text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight opacity-70 max-w-4xl">
+              Creative developer & designer crafting meaningful digital experiences
+            </p>
+          </div>
+
+          {/* Image */}
+          <div ref={imageRef} className="max-w-3xl">
+            <div className="aspect-[4/5] md:aspect-[3/2] overflow-hidden rounded-3xl">
+              <img
+                src={portraitImage}
+                alt="Developer"
+                className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Content Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div ref={contentRef} className="prose prose-lg max-w-3xl opacity-100">
-            <p className="text-lg leading-relaxed mb-6 opacity-100">
-              I'm a freelance designer and developer based in the Netherlands, specializing in creating 
-              unique digital experiences that help brands stand out in the digital era.
+      {/* Bio Section */}
+      <section ref={bioRef} className="min-h-[60vh] flex items-center px-6 md:px-12 lg:px-16 py-20 md:py-32" data-scroll-section>
+        <div className="max-w-[1800px] mx-auto w-full">
+          <div className="max-w-5xl">
+            <p className="text-2xl md:text-4xl lg:text-5xl font-light leading-relaxed tracking-tight mb-12 md:mb-16 opacity-90">
+              I'm a creative developer based in the Netherlands, specializing in building 
+              digital products that blend aesthetics with functionality.
             </p>
-            <p className="text-lg leading-relaxed mb-6 opacity-100">
-              With a passion for both design and code, I bridge the gap between aesthetics and 
-              functionality. My work focuses on interaction design, smooth animations, and clean, 
-              maintainable code.
-            </p>
-            <p className="text-lg leading-relaxed opacity-100">
-              I believe in creating digital products that are not only visually stunning but also 
-              intuitive and performant. Every project is an opportunity to push boundaries and 
-              deliver exceptional results.
+            <p className="text-xl md:text-3xl lg:text-4xl font-light leading-relaxed tracking-tight opacity-60">
+              With a focus on user-centric design and clean code, I help brands and 
+              businesses create memorable online experiences that resonate with their audience.
             </p>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section className="py-20 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="text-sm mb-12 text-muted opacity-100">Skills & Expertise</h2>
+      <section ref={skillsRef} className="min-h-screen flex items-center px-6 md:px-12 lg:px-16 py-20 md:py-32 bg-neutral-50" data-scroll-section>
+        <div className="max-w-[1800px] mx-auto w-full">
+          <div className="mb-16 md:mb-24">
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight mb-6 md:mb-8">
+              Skills & Expertise
+            </h2>
+            <p className="text-xl md:text-2xl lg:text-3xl font-light opacity-60 max-w-3xl">
+              A comprehensive toolkit built over years of experience in the digital landscape.
+            </p>
+          </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-            {skills.map((skill, index) => (
-              <div
-                key={index}
-                ref={(el) => (skillsRef.current[index] = el)}
-                className="opacity-100"
-              >
-                <h3 className="text-2xl mb-6 opacity-100">{skill.category}</h3>
-                <ul className="space-y-3 opacity-100">
-                  {skill.items.map((item, i) => (
-                    <li key={i} className="text-muted text-sm opacity-100">
-                      {item}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 md:gap-16">
+            {skills.map((skillGroup) => (
+              <div key={skillGroup.category} className="skill-category">
+                <h3 className="text-base md:text-lg uppercase tracking-wider mb-6 md:mb-8 opacity-40 font-medium">
+                  {skillGroup.category}
+                </h3>
+                <ul className="space-y-4">
+                  {skillGroup.items.map((skill, idx) => (
+                    <li 
+                      key={idx}
+                      className="text-xl md:text-2xl lg:text-3xl font-light tracking-tight hover:opacity-60 transition-opacity cursor-default"
+                    >
+                      {skill}
                     </li>
                   ))}
                 </ul>

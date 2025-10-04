@@ -8,6 +8,7 @@ import Work from "./pages/Work";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import HoverReceiver from "@/visual-edits/VisualEditsMessenger";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <HoverReceiver />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />

@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { componentTagger } from "lovable-tagger";
+import { componentTaggerPlugin } from "./src/visual-edits/component-tagger-plugin.js";
 
 // Minimal plugin to log build-time and dev-time errors to console
 const logErrorsPlugin = () => ({
@@ -69,6 +71,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     logErrorsPlugin(),
+    mode === 'development' && componentTaggerPlugin(),
   ].filter(Boolean),
   resolve: {
     alias: {
@@ -76,4 +79,4 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
-// Orchids restart: 1759577560598
+// Orchids restart: 1759574782868
