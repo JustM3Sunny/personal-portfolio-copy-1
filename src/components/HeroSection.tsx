@@ -14,28 +14,28 @@ const HeroSection = () => {
       if (chars) {
         gsap.from(chars, {
           opacity: 0,
-          y: 100,
-          stagger: 0.03,
-          duration: 1.2,
+          y: 50,
+          stagger: 0.015,
+          duration: 0.8,
           ease: 'power3.out',
-          delay: 0.5,
+          delay: 0.1,
         });
       }
 
       gsap.from(subtitleRef.current, {
         opacity: 0,
-        y: 40,
-        duration: 1,
-        ease: 'power3.out',
-        delay: 1.5,
+        y: 30,
+        duration: 0.8,
+        ease: 'power2.out',
+        delay: 0.4,
       });
 
       gsap.from(imageRef.current, {
         opacity: 0,
         scale: 0.95,
-        duration: 1.2,
-        ease: 'power3.out',
-        delay: 1.8,
+        duration: 1,
+        ease: 'power2.out',
+        delay: 0.6,
       });
     }, heroRef);
 
