@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Header } from "@/components/Header";
+import { Navigation } from "@/components/Navigation";
 
 export const NotFound = () => {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -20,23 +20,26 @@ export const NotFound = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
-      <Header />
+    <div className="min-h-screen bg-background">
+      <Navigation />
       
-      <section className="min-h-screen flex items-center justify-center px-6">
-        <div ref={contentRef} className="text-center">
-          <h1 className="text-8xl md:text-9xl mb-6 opacity-100">404</h1>
-          <p className="text-xl md:text-2xl text-muted mb-8 opacity-100">
+      <div ref={contentRef} className="min-h-screen flex items-center justify-center px-6">
+        <div className="text-center max-w-2xl">
+          <h1 className="text-8xl md:text-9xl mb-8 opacity-100">404</h1>
+          <p className="text-2xl md:text-3xl mb-8 opacity-100">
             Page not found
+          </p>
+          <p className="text-lg text-muted mb-12 opacity-100">
+            The page you're looking for doesn't exist or has been moved.
           </p>
           <a
             href="/"
-            className="inline-block px-8 py-3 bg-foreground text-background rounded-full text-sm hover:opacity-80 transition-opacity opacity-100"
+            className="inline-block px-12 py-4 bg-foreground text-background text-sm hover:opacity-80 transition-opacity opacity-100"
           >
             Back to Home
           </a>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
